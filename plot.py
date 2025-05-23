@@ -31,7 +31,7 @@ class LivePlot:
 
         # Ensure the plots directory exists
         if not os.path.exists("plots"):
-            os.mkdir("plots")
+            os.makedirs("plots")
 
         current_date = datetime.now().strftime("%Y-%m-%d")
 
