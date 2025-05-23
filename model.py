@@ -51,7 +51,7 @@ class AtariNet(nn.Module):
 
     def save_the_model(self, weights_filename='models/latest.pt'):
         if not os.path.exists("models"):
-            os.makedir("models")
+            os.makedirs("models")
         torch.save(self.state_dict(), weights_filename)
 
     def load_the_model(self, weights_filename='models/latest.pt'):
