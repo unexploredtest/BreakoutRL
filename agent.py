@@ -75,11 +75,12 @@ class Agent:
 
         plotter = LivePlot()
 
+        time_start = time.time()
+
         for epoch in range(1, epochs + 1):
             state = env.reset()
             done = False
             ep_return = 0
-            time_start = time.time()
 
             while not done:
                 action = self.get_action(state)
@@ -124,6 +125,8 @@ class Agent:
                     print(f"Epoch: {epoch} - Average Return: {np.mean(stats['Returns'][-100:])} - Epsilon {self.epsilon} - Took {time_spent:.1f} seconds")
                 else:
                     print(f"Epoch: {epoch} - Episode Return: {np.mean(stats['Returns'][-1:])} - Epsilon {self.epsilon} - Took {time_spent:.1f} seconds")
+
+                time_start = time.time()
 
             if epoch % 100 == 0:
                 self.target_model.load_state_dict(self.model.state_dict())
