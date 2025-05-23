@@ -79,6 +79,7 @@ class Agent:
             state = env.reset()
             done = False
             ep_return = 0
+            time_start = time.time()
 
             while not done:
                 action = self.get_action(state)
@@ -117,16 +118,18 @@ class Agent:
                 stats["AvgReturns"].append(average_returns)
                 stats["EpsilonCheckpoint"].append(self.epsilon)
 
+                time_spent =  time.time() - time_start
+
                 if(len(stats["Returns"]) > 100):
-                    print(f"Epoch: {epoch} - Average Return: {np.mean(stats['Returns'][-100:])} - Epsilon {self.epsilon}")
+                    print(f"Epoch: {epoch} - Average Return: {np.mean(stats['Returns'][-100:])} - Epsilon {self.epsilon} - Took {time_spent:.1f} seconds")
                 else:
-                    print(f"Epoch: {epoch} - Episode Return: {np.mean(stats['Returns'][-1:])} - Epsilon {self.epsilon}")
+                    print(f"Epoch: {epoch} - Episode Return: {np.mean(stats['Returns'][-1:])} - Epsilon {self.epsilon} - Took {time_spent:.1f} seconds")
 
             if epoch % 100 == 0:
                 self.target_model.load_state_dict(self.model.state_dict())
                 plotter.update_plot(stats)
 
-            if epoch % 1000 == 0:
+            if epoch % 200 == 0:
                 self.model.save_the_model(f"models/model_iter_{epoch}.pt")
 
         return stats
